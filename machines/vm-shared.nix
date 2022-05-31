@@ -6,7 +6,7 @@
 
   # use unstable nix so we can access flakes
   nix = {
-    package = pkgs.nixUnstable;
+    package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
       keep-outputs = true
@@ -22,7 +22,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Define your hostname.
-  networking.hostName = "dev";
+  networking.hostName = "dreamdev";
 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
@@ -59,7 +59,7 @@
       # AARCH64: For now, on Apple Silicon, we must manually set the
       # display resolution. This is a known issue with VMware Fusion.
       sessionCommands = ''
-        ${pkgs.xlibs.xset}/bin/xset r rate 200 40
+        ${pkgs.xorg.xset}/bin/xset r rate 200 40
       '' + (if currentSystemName == "vm-aarch64" then ''
         ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800'
       '' else "");
@@ -88,7 +88,7 @@
   environment.systemPackages = with pkgs; [
     gnumake
     killall
-    niv
+    # niv
     rxvt_unicode
     xclip
 
