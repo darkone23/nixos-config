@@ -66,7 +66,11 @@ vm/bootstrap:
 	ssh $(SSH_OPTIONS) -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) " \
 		sudo reboot; \
 	"
-
+	
+vm/nixindex:
+	ssh $(SSH_OPTIONS) -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) " \
+		nix-index; \
+	"
 
 # copy our secrets into the VM
 vm/secrets:
@@ -96,7 +100,3 @@ vm/switch:
 	ssh $(SSH_OPTIONS) -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) " \
 		sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --flake \"/nix-config#${NIXNAME}\" \
 	"
-
-# Build an ISO image
-iso/nixos.iso:
-	cd iso; ./build.sh
