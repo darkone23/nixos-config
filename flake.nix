@@ -9,6 +9,9 @@
 
     # We use the unstable nixpkgs repo for some packages.
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    
+    rust-overlay.url = "github:oxalica/rust-overlay";
+    
 
     home-manager = {
       url = "github:nix-community/home-manager/release-22.05";
@@ -22,12 +25,13 @@
     # zig.url = "github:arqv/zig-overlay";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: let
+  outputs = { self, nixpkgs, rust-overlay, home-manager, ... }@inputs: let
     mkVM = import ./lib/mkvm.nix;
 
     # Overlays is the list of overlays we want to apply from flake inputs.
     overlays = [
       # inputs.neovim-nightly-overlay.overlay
+      inputs.rust-overlay.overlay
 
       (final: prev: {
         # kitty = inputs.nixpkgs.kitty

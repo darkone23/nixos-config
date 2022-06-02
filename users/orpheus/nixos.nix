@@ -18,7 +18,6 @@
     ];
   };
 
-  nixpkgs.overlays = import ../../lib/overlays.nix ++ [
-    # todo: hx?
-  ];
+  nixpkgs.overlays = [];
+    
 }

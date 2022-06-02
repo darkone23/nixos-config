@@ -1,6 +1,11 @@
 { config, lib, pkgs, ... }:
 
-{
+let 
+  nodejs = pkgs.nodejs-14_x;
+  typescript-language-server-bin = (pkgs.callPackage ../../pkgs/typescript-language-server {
+    nodejs = nodejs;
+  }).typescript-language-server;
+in {
   xdg.enable = true;
 
   #---------------------------------------------------------------------
@@ -12,11 +17,21 @@
   # not a huge list.
   home.packages = [
     pkgs.bat
+    pkgs.tig
     pkgs.bottom
     pkgs.jq
     pkgs.ripgrep
     pkgs.tree
     pkgs.watch
+
+    pkgs.nodejs-slim-14_x
+    pkgs.nodePackages.node2nix
+    
+    # some helix stuff
+    pkgs.rust-analyzer
+    pkgs.lldb
+        
+    typescript-language-server-bin    
   ];
 
   #---------------------------------------------------------------------
@@ -62,16 +77,23 @@
       gt = "git tag";
     };
   };
+  
+  programs.helix = {
+    enable = true;
+  };
 
-  programs.direnv= {
+  programs.direnv = {
     enable = true;
 
+    nix-direnv = {
+      enable = true;
+    };    
+
     config = {
+      load_dotenv = true;
+
       whitelist = {
-        prefix= [
-
-        ];
-
+        prefix = [];
         exact = ["$HOME/.envrc"];
       };
     };
@@ -190,9 +212,10 @@
   # to generate x11 specific cursor configurations. You can refer to the documentation for more details.
 
   # Make cursor not tiny on HiDPI screens
-  xsession.pointerCursor = {
+  home.pointerCursor = {
     name = "Vanilla-DMZ";
     package = pkgs.vanilla-dmz;
     size = 128;
+    x11.enable = true;
   };
 }

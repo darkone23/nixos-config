@@ -9,7 +9,10 @@ nixpkgs.lib.nixosSystem rec {
     # Apply our overlays. Overlays are keyed by system type so we have
     # to go through and apply our system type. We do this first so
     # the overlays are available globally.
-    { nixpkgs.overlays = overlays; }
+    ({ pkgs, ... }:  { 
+      nixpkgs.overlays = overlays;
+      environment.systemPackages = [ pkgs.rust-bin.stable.latest.default ];
+    })
 
     ../hardware/${name}.nix
     ../machines/${name}.nix
