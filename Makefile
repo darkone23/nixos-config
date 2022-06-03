@@ -69,8 +69,8 @@ vm/bootstrap:
 	
 vm/nixindex:
 	ssh $(SSH_OPTIONS) -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) " \
-		nix-index; \
-	"
+		sudo bash -c 'nix-channel --update && nix-index'; \
+	";
 
 # copy our secrets into the VM
 vm/secrets:

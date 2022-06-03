@@ -18,6 +18,8 @@ configures user 'orpheus' on machine with hostname 'dreamdev'
 
 - installs and configures some stuff using home-manager
 
+## Credits
+
 project adapted for personal use from https://github.com/mitchellh/nixos-config
 
 ## Setup
